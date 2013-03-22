@@ -77,7 +77,7 @@ public class LoginWorker {
             c.setIdleTask(PingTimer.getInstance().schedule(new Runnable() {
 
                 public void run() {
-                    c.getSession().close();
+                    c.getSession().close(false);
                 }
             }, 10 * 60 * 10000));
         } else {

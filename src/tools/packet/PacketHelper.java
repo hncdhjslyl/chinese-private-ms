@@ -36,6 +36,7 @@ import client.InnerSkillValueHolder;
 /*      */ import server.MapleItemInformationProvider;
 /*      */ import server.MapleShop;
 /*      */ import server.MapleShopItem;
+import server.ServerProperties;
 /*      */ import server.movement.LifeMovementFragment;
 /*      */ import server.quest.MapleQuest;
 /*      */ import server.shops.AbstractPlayerStore;
@@ -352,19 +353,25 @@ import tools.HexTool;
 /*      */   }
 /*      */ 
 /*      */   public static final void addCharStats(MaplePacketLittleEndianWriter mplew, MapleCharacter chr)
-/*      */   {
+/*      */   { 
+				//通常角色状态和外观一起被调用
+				//ID姓名性别
 /*  497 */     mplew.writeInt(chr.getId());
 /*  498 */     mplew.writeAsciiString(chr.getName(), 13);
 /*  499 */     mplew.write(chr.getGender());
 			   mplew.write(0);
+			   //皮肤脸头发
 /*  500 */     mplew.write(chr.getSkinColor());
 /*  501 */     mplew.writeInt(chr.getFace());
 /*  502 */     mplew.writeInt(chr.getHair());
 /*  503 */   //  mplew.writeZeroBytes(24);
+              //等级职业属性 剩余AP SP
 /*  504 */     mplew.write(chr.getLevel());
 /*  505 */     mplew.writeShort(chr.getJob());
 /*  506 */     chr.getStat().connectData(mplew);
 /*  507 */     mplew.writeShort(chr.getRemainingAp());
+                 //sp可以分离sp的职业
+					//狂龙 萌天使 米哈尔 龙神 夜光 反抗者 双弩 恶魔 幻影
 /*  508 */     if (GameConstants.isSeparatedSp(chr.getJob())) {
 /*  509 */       int size = chr.getRemainingSpSize();
 /*  510 */       mplew.write(size);
@@ -373,47 +380,71 @@ import tools.HexTool;
 /*  513 */           mplew.write(i + 1);
 /*  514 */           mplew.writeInt(chr.getRemainingSp(i));
 /*      */         }
-/*      */     }
+/*      */     } //不是可分离的直接写
 /*      */     else {
 /*  518 */       mplew.writeShort(chr.getRemainingSp());
 /*      */     }
+                //经验 人气 ??
 /*  520 */     mplew.writeInt(chr.getExp());
 /*  521 */     mplew.writeInt(chr.getFame());
 /*  522 */     mplew.writeInt(chr.getGachExp());
 //path
-			mplew.writeLong(DateUtil.getFileTimestamp(System.currentTimeMillis()));
+			   mplew.writeLong(DateUtil.getFileTimestamp(System.currentTimeMillis()));
+			   //所在地图
 /*  523 */     mplew.writeInt(chr.getMapId());
-
+              //复活点
 /*  524 */     mplew.write(chr.getInitialSpawnpoint());
-/*  525 */    // mplew.writeInt(0);
+/*  525 */    //子类
 /*  526 */     mplew.writeShort(chr.getSubcategory());
+						//恶魔猎手
 /*  527 */     if (GameConstants.isDemon(chr.getJob())) {
 /*  528 */       mplew.writeInt(chr.getDemonMarking());
 /*      */     }
+				//疲劳
 /*  530 */     mplew.write(chr.getFatigue());
 /*  531 */     mplew.writeInt(GameConstants.getCurrentDate());
+                //下面的顺序可能没分析好
 /*  532 */     for (MapleTrait.MapleTraitType t : MapleTrait.MapleTraitType.values()) {
 /*  533 */       mplew.writeInt(chr.getTrait(t).getTotalExp());
 /*      */     }
-/*  535 */     for (MapleTrait.MapleTraitType t : MapleTrait.MapleTraitType.values()) {
-/*  536 */       mplew.writeShort(0);
-/*      */     }
-/*  580 */     mplew.write(0);
-				mplew.writeLong(getTime(-2L));
+/*  535 */    // for (MapleTrait.MapleTraitType t : MapleTrait.MapleTraitType.values()) {
+/*  536 */     //  mplew.writeShort(0);
+/*      */    // }
+/*  580 */   //  mplew.write(0);
+			 //  mplew.writeLong(getTime(-2L));
 /*  581 */   //  mplew.writeInt(-35635200);
 /*  582 */   //  mplew.writeInt(21968699);
+				mplew.writeZeroBytes(14);
+				mplew.write(new byte[] {0x40,(byte) 0xE0,(byte) 0xFD,0x3B,0x37,0x4F,1});
 /*  583 */     mplew.writeInt(chr.getStat().pvpExp);
 /*  584 */     mplew.write(chr.getStat().pvpRank);
 /*  585 */     mplew.writeInt(chr.getBattlePoints());
+			//pvp数据 不确定 
+
+				//mplew.writeInt(0);
+				//mplew.write(0);
+				//这些都是推测数据
+				
+			//	mplew.writeInt(0);
+				   // mplew.write(10);
 				mplew.write(6);
+				mplew.writeInt(0);
+				mplew.writeShort(0);
+				    
+			//	mplew.write(6);
 /*  586 */    // mplew.write(5);
-               mplew.writeInt(7); // Knights of Virtue blessing UI on screen shown when it's writeInt(2);
-               mplew.writeShort(0);  // part time job action of resting = 1, herbalism= 2, Mining = 3, general store = 4, Weapon and armor store = 5
+           //    mplew.writeInt(7); // Knights of Virtue blessing UI on screen shown when it's writeInt(2);
+           //    mplew.writeShort(0);  // part time job action of resting = 1, herbalism= 2, Mining = 3, general store = 4, Weapon and armor store = 5
                mplew.write(new byte[] { 59, 55, 79, 1, 0, 64, -32, -3 });
+               //chr.getCharacterCard().connectData(mplew); //6*9 54
+               
+               mplew.writeZeroBytes(54+5);
+               //猜测数据 意义不明
+               mplew.write(new byte[] { 0x20, (byte) 0x97, 2, 0x3d, (byte) 0x80, (byte) 0xe1, 0x5f, 6,0x6e,7,(byte) 0xce,1 });
               // mplew.writeShort(0);
-               mplew.writeZeroBytes(8*7+3);
-               mplew.write(HexTool.getByteArrayFromHexString("3B 37 4F 01 00 40 E0 FD"));
-              // chr.getCharacterCard().connectData(mplew);
+              // mplew.writeZeroBytes(8*7+3);
+             //  mplew.write(HexTool.getByteArrayFromHexString("3B 37 4F 01 00 40 E0 FD"));
+              // 
               // mplew.writeReversedLong(getTime(System.currentTimeMillis()));
     /*mplew.write(0);  // part time job action of resting = 1, herbalism= 2, Mining = 3, general store = 4, Weapon and armor store = 5
      mplew.write(new byte[] { 59, 55, 79, 1, 0, 64, -32, -3 });
@@ -459,7 +490,7 @@ import tools.HexTool;
 /*      */       }
 /*      */ 
 /*      */     }
-/*      */ 
+/*      */   // mplew.write(255);
 /*  653 */     for (Map.Entry entry : myEquip.entrySet()) {
 /*  654 */       mplew.write(((Byte)entry.getKey()).byteValue());
 /*  655 */       mplew.writeInt(((Integer)entry.getValue()).intValue());
@@ -491,6 +522,7 @@ import tools.HexTool;
 //add
 				
 /*  669 */     mplew.writeZeroBytes(12);
+              //恶魔猎手
 /*  670 */     if (GameConstants.isDemon(chr.getJob()))
 /*  671 */       mplew.writeInt(chr.getDemonMarking());
 /*      */   }
@@ -801,7 +833,7 @@ import tools.HexTool;
 /*  984 */     mplew.writeShort(pet.getCloseness());
 /*  985 */     mplew.write(pet.getFullness());
 /*  986 */     if (item == null)
-                 mplew.writeLong(PacketHelper.getKoreanTimestamp((long) (System.currentTimeMillis() * 1.5)));
+                 mplew.writeLong(getKoreanTimestamp((long) (System.currentTimeMillis() * 1.5)));
 /*      */     else {
 /*  989 */       addExpirationTime(mplew, item.getExpiration() <= System.currentTimeMillis() ? -1L : item.getExpiration());
 /*      */     }

@@ -37,6 +37,7 @@ public class ServerProperties {
         loadProperties(toLoad);
         ServerConstants.Use_Localhost=Boolean.parseBoolean(getProperty("useloc"));
         ServerConstants.IP=getProperty("net.sf.odinms.world.host");
+        ServerConstants.MAPLE_PATCH=getProperty("PATCH","1");
         //CashShopServer.PORT=Integer.parseInt(getProperty("net.sf.odinms.shop.port",String.valueOf(8600)));
         ServerConstants.MAPLE_VERSION=Short.parseShort(getProperty("VERSION",String.valueOf(105)));
         ServerConstants.SQL_USER=getProperty("db.user","root");

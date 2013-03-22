@@ -798,7 +798,7 @@ public class PlayersHandler {
             pull = skil.isPull();
             if (chr.getTotalSkillLevel(GameConstants.getLinkedAranSkill(skillid)) <= 0) {
                 if (!GameConstants.isIceKnightSkill(skillid) && chr.getTotalSkillLevel(GameConstants.getLinkedAranSkill(skillid)) <= 0) {
-                    c.getSession().close();
+                    c.getSession().close(false);
                     return;
                 }
                 if (GameConstants.isIceKnightSkill(skillid) && chr.getBuffSource(MapleBuffStat.MORPH) % 10000 != 1105) {

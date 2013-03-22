@@ -80,7 +80,7 @@ public class ServerConstants {
     public static final String[] Poll_Answers = {"test1", "test2", "test3"};
     // End of Poll
     public static short MAPLE_VERSION = (short) 105;
-    public static final String MAPLE_PATCH = "1";
+    public static  String MAPLE_PATCH = "1";
     public static byte MAPLE_TYPE=4;
     public static final boolean BLOCK_CS = false;
     public static boolean Use_Localhost = true; // true = packets are logged, false = others can connect to server

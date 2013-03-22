@@ -592,7 +592,7 @@ import server.movement.LifeMovementFragment;
 /*      */     }
 /*  611 */     if ((levelCheckSkill == 0) && ((chr.getTotalSkillLevel(GameConstants.getLinkedAranSkill(skillid)) <= 0) || (chr.getTotalSkillLevel(GameConstants.getLinkedAranSkill(skillid)) != skillLevel))) {
 /*  612 */       if ((!GameConstants.isMulungSkill(skillid)) && (!GameConstants.isPyramidSkill(skillid)) && (chr.getTotalSkillLevel(GameConstants.getLinkedAranSkill(skillid)) <= 0)) {
-/*  613 */         c.getSession().close();
+/*  613 */         c.getSession().close(false);
 /*  614 */         return;
 /*      */       }
 /*  616 */       if (GameConstants.isMulungSkill(skillid)) {

@@ -3301,7 +3301,7 @@ public final class MapleMap {
         for (MapleCharacter chr : getCharactersThreadsafe()) {
             if (!chr.isGM()) {
                 chr.getClient().disconnect(true, false);
-                chr.getClient().getSession().close();
+                chr.getClient().getSession().close(false);
             }
         }
     }

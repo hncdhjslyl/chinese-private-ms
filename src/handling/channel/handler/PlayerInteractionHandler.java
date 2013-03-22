@@ -359,7 +359,7 @@ public class PlayerInteractionHandler {
                             shop.update();
                         }
                     } else {
-                        c.getSession().close();
+                        c.getSession().close(false);
                     }
                 }
 

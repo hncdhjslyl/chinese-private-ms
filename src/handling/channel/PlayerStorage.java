@@ -202,7 +202,7 @@ public class PlayerStorage {
 
                 if (!chr.isGM() || !checkGM) {
                     chr.getClient().disconnect(false, false, true);
-                    chr.getClient().getSession().close();
+                    chr.getClient().getSession().close(false);
 		    World.Find.forceDeregister(chr.getId(), chr.getName());
                     itr.remove();
                 }

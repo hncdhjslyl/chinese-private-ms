@@ -206,7 +206,7 @@
 /*  226 */                   player.getCheatTracker().registerOffense(CheatingOffense.HIGH_DAMAGE_2, new StringBuilder().append("[Damage: ").append(eachd).append(", Expected: ").append(maxDamagePerHit).append(", Mob: ").append(monster.getId()).append("] [Job: ").append(player.getJob()).append(", Level: ").append(player.getLevel()).append(", Skill: ").append(attack.skill).append("]").toString());
 /*  227 */                   eachd = Integer.valueOf((int)(maxDamagePerHit * 2.0D));
 /*  228 */                   if (eachd.intValue() >= 2499999) {
-/*  229 */                     player.getClient().getSession().close();
+/*  229 */                     player.getClient().getSession().close(false);
 /*  230 */                     return;
 /*      */                   }
 /*      */                 }
@@ -512,7 +512,7 @@
 /*  537 */                   eachd = Integer.valueOf((int)(MaxDamagePerHit * 2.0D));
 /*      */ 
 /*  539 */                   if (eachd.intValue() >= 2499999) {
-/*  540 */                     player.getClient().getSession().close();
+/*  540 */                     player.getClient().getSession().close(false);
 /*  541 */                     return;
 /*      */                   }
 /*      */                 }

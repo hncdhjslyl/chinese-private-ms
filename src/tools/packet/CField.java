@@ -107,7 +107,8 @@ import constants.GameConstants;
 /*      */ public class CField
 /*      */ {
 /*   70 */   public static int DEFAULT_BUFFMASK = 0;
-/*   71 */   public static byte[] NEXON_IP = { 8, 31, 98, 53 };
+             public static byte[] NEXON_IP = {-35, -25, -126, 70};
+/*   71 */  // public static byte[] NEXON_IP = { 8, 31, 98, 53 };
 /*      */ 
 /*      */   public static byte[] getPacketFromHexString(String hex)
 /*      */   {

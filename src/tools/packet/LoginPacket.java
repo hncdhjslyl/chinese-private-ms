@@ -36,7 +36,8 @@ import tools.DateUtil;
 /*  51 */     return mplew.getPacket();
 /*     */   }
 /*     */  
-	public static final byte[] getHello(short mapleVersion, byte[] sendIv, byte[] recvIv,boolean testSrv)
+//这是一个在商业端添加的函数,不要使用该函数
+	public static final byte[] getHelloNoUse(short mapleVersion, byte[] sendIv, byte[] recvIv,boolean testSrv)
   {
 			    MaplePacketLittleEndianWriter mplew = new MaplePacketLittleEndianWriter(15 +ServerConstants.MAPLE_PATCH.length());
 			
@@ -325,22 +326,15 @@ import tools.DateUtil;
               mplew.writeLong(charslots);
               mplew.writeInt(-1);
 /* 285 */   //  mplew.writeInt(charslots);
-			//  mplew.write(HexTool.getByteArrayFromHexString("53 80 CD 01 90 A6 7D 1C"));
-/* 286 */   mplew.write(HexTool.getByteArrayFromHexString("DE 05 CE 01 30 3C 69 03"));
-              mplew.writeInt(0);
+              mplew.write(HexTool.getByteArrayFromHexString("CA 40 CE 01 60 8B EC 06"));
+/* 286 */   //mplew.write(HexTool.getByteArrayFromHexString("DE 05 CE 01 30 3C 69 03"));
+              mplew.writeInt(1024);
               mplew.write(0);
               int num = 14;
               mplew.writeShort(num);
               for (int i = 0; i < num; i++) {
                 mplew.writeShort(i);
-                if (i == 10)
-                  mplew.write(HexTool.getByteArrayFromHexString("44 29 33 01 55 3B 3D 01"));
-                else if (i == 12)
-                  mplew.write(HexTool.getByteArrayFromHexString("9D 29 33 01 55 3B 3D 01"));
-                else {
-                  mplew.write(HexTool.getByteArrayFromHexString("25 EB 21 01 55 3B 3D 01"));
-                }
-
+                mplew.write(HexTool.getByteArrayFromHexString("25 EB 21 01 55 3B 3D 01"));
               }
               //人物信息补完 ver 107
 /* 287 */    // mplew.writeInt(0);

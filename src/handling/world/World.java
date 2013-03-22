@@ -1676,7 +1676,7 @@ public class World {
         private final List<ChannelServer> cservs = new ArrayList<ChannelServer>(CHANNELS_PER_THREAD);
 
         public Respawn(Integer[] chs, int c) {
-            StringBuilder s = new StringBuilder("[复位] ");
+            StringBuilder s = new StringBuilder("[刷怪后台] 频道 ");
             for (int i = 1; i <= CHANNELS_PER_THREAD && chs.length >= (c + i); i++) {
                 cservs.add(ChannelServer.getInstance(c + i));
                 s.append(c + i).append(" ");

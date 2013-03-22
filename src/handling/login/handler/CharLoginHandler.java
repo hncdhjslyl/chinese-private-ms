@@ -100,14 +100,14 @@ public class CharLoginHandler {
                 c.clearInformation();
                 c.getSession().write(LoginPacket.getLoginFailed(loginok));
             } else {
-                c.getSession().close();
+                c.getSession().close(false);
             }
         } else if (tempbannedTill.getTimeInMillis() != 0) {
             if (!loginFailCount(c)) {
                 c.clearInformation();
                 c.getSession().write(LoginPacket.getTempBan(PacketHelper.getTime(tempbannedTill.getTimeInMillis()), c.getBanReason()));
             } else {
-                c.getSession().close();
+                c.getSession().close(false);
             }
         } else {
             c.loginAttempt = 0;
@@ -144,7 +144,7 @@ public class CharLoginHandler {
 
     public static final void CharlistRequest(final LittleEndianAccessor slea, final MapleClient c) {
         if (!c.isLoggedIn()) {
-            c.getSession().close();
+            c.getSession().close(false);
             return;
         }
         if (GameConstants.GMS) {
@@ -163,23 +163,23 @@ public class CharLoginHandler {
         if (chars != null && ChannelServer.getInstance(channel) != null) {
             c.setWorld(server);
             c.setChannel(channel);
-            c.getSession().write(LoginPacket.getSecondAuthSuccess(c));
+            //c.getSession().write(LoginPacket.getSecondAuthSuccess(c));
             c.getSession().write(LoginPacket.getCharList(c.getSecondPassword(), chars, c.getCharacterSlots()));
         } else {
-            c.getSession().close();
+            c.getSession().close(false);
         }
     }
 
     public static final void updateCCards(final LittleEndianAccessor slea, final MapleClient c) {
         if (slea.available() != 24 || !c.isLoggedIn()) {
-            c.getSession().close();
+            c.getSession().close(false);
             return;
         }
         final Map<Integer, Integer> cids = new LinkedHashMap<>();
         for (int i = 1; i <= 6; i++) { // 6 chars
             final int charId = slea.readInt();
             if ((!c.login_Auth(charId) && charId != 0)|| ChannelServer.getInstance(c.getChannel()) == null || c.getWorld() != 0) {
-                c.getSession().close();
+                c.getSession().close(false);
                 return;
             }
 			cids.put(i, charId);
@@ -195,7 +195,7 @@ public class CharLoginHandler {
 
     public static void CreateChar(final LittleEndianAccessor slea, final MapleClient c) {
         if (!c.isLoggedIn()) {
-            c.getSession().close();
+            c.getSession().close(false);
             return;
         }
         final String name=slea.readMapleAsciiString();
@@ -536,14 +536,14 @@ public class CharLoginHandler {
         final int Character_ID = slea.readInt();
 
         if (!c.login_Auth(Character_ID) || !c.isLoggedIn() || loginFailCount(c)) {
-            c.getSession().close();
+            c.getSession().close(false);
             return; // Attempting to delete other character
         }
         byte state = 0;
 
         if (c.getSecondPassword() != null) { // On the server, there's a second password
             if (Secondpw_Client == null) { // Client's hacking
-                c.getSession().close();
+                c.getSession().close(false);
                 return;
             } else {
                 if (!c.CheckSecondPassword(Secondpw_Client)) { // Wrong Password
@@ -569,7 +569,7 @@ public class CharLoginHandler {
         }
         final String currentpw = c.getSecondPassword();
         if (!c.isLoggedIn() || loginFailCount(c) || (currentpw != null && (!currentpw.equals("") || haspic)) || !c.login_Auth(charId) || ChannelServer.getInstance(c.getChannel()) == null || c.getWorld() != 0) { // TODOO: MULTI WORLDS
-            c.getSession().close();
+            c.getSession().close(false);
             return;
         }
         c.updateMacs(slea.readMapleAsciiString());
@@ -604,7 +604,7 @@ public class CharLoginHandler {
             c.setWorld(slea.readInt());
         }
         if (!c.isLoggedIn() || loginFailCount(c) || c.getSecondPassword() == null || !c.login_Auth(charId) || ChannelServer.getInstance(c.getChannel()) == null || c.getWorld() != 0) { // TODOO: MULTI WORLDS
-            c.getSession().close();
+            c.getSession().close(false);
             return;
         }
         if (GameConstants.GMS) {

@@ -539,7 +539,7 @@ public class MapleServerHandler extends IoHandlerAdapter implements MapleServerH
             case CLIENT_HELLO:
             	//fix china ver 
                 if (slea.readByte() != ServerConstants.MAPLE_TYPE || slea.readShort() != ServerConstants.MAPLE_VERSION  ||(!String.valueOf(slea.readShort()).equals(ServerConstants.MAPLE_PATCH)) ) {
-                    c.getSession().close();
+                    c.getSession().close(false);
                     System.out.println("hello fail");
                 }
                // else

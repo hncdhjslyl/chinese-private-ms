@@ -178,7 +178,7 @@ public class Start {
     public static void main(final String args[]) throws InterruptedException {
     	try
     	{
-    	System.getProperties().load(new FileInputStream("game.properties"));
+    	System.getProperties().setProperty("net.sf.odinms.wzpath", ServerProperties.getProperty("net.sf.odinms.wzpath"));
     	}
     	catch(Exception ex)
     	{

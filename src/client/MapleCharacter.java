@@ -873,7 +873,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                     if (rs.getInt("banned") > 0) {
                         rs.close();
                         ps.close();
-                        ret.getClient().getSession().close();
+                        ret.getClient().getSession().close(false);
                         throw new RuntimeException("Loading a banned character");
                     }
                     rs.close();
@@ -4699,7 +4699,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 ps.close();
             }
 
-            client.getSession().close();
+            client.getSession().close(false);
 
             ps = con.prepareStatement("UPDATE accounts SET tempban = ?, banreason = ?, greason = ? WHERE id = ?");
             Timestamp TS = new Timestamp(duration.getTimeInMillis());
@@ -4773,7 +4773,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             System.err.println("Error while banning" + ex);
             return false;
         }
-        client.getSession().close();
+        client.getSession().close(false);
         return true;
     }
 

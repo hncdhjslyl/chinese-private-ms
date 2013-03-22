@@ -61,13 +61,13 @@ public enum MonsterStatus implements Serializable, Buffstat {
     //speshul comes after
     EMPTY(0x8000000, 1, true),
     SUMMON(0x80000000, 1, true), //all summon bag mobs have.
-    EMPTY_1(0x20, 2, !GameConstants.GMS), //chaos
+    EMPTY_1(0x20, 2, true), //chaos
     EMPTY_2(0x40, 2, true),
     EMPTY_3(0x80, 2, true),
-    EMPTY_4(0x100, 2, GameConstants.GMS), //jump
-    EMPTY_5(0x200, 2, GameConstants.GMS),
-    EMPTY_6(0x400, 2, GameConstants.GMS),
-    EMPTY_7(0x2000, 2, GameConstants.GMS),;
+    EMPTY_4(0x100, 2, false), //jump
+    EMPTY_5(0x200, 2, false),
+    EMPTY_6(0x400, 2, false),
+    EMPTY_7(0x2000, 2, false),;
     static final long serialVersionUID = 0L;
     private final int i;
     private final int first;

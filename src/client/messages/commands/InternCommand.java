@@ -230,7 +230,7 @@ public class InternCommand {
         public int execute(MapleClient c, String[] splitted) {
             MapleCharacter victim = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[splitted.length - 1]);
             if (victim != null && c.getPlayer().getGMLevel() >= victim.getGMLevel()) {
-                victim.getClient().getSession().close();
+                victim.getClient().getSession().close(false);
                 victim.getClient().disconnect(true, false);
                 return 1;
             } else {
